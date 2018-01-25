@@ -1,8 +1,8 @@
-require 'dm-migrations'
-require 'data_mapper'
-require 'dm-postgres-adapter'
-
-require './app/models/bookmark.rb'
+# require 'dm-migrations'
+# require 'data_mapper'
+# require 'dm-postgres-adapter'
+#
+# require './app/models/bookmark.rb'
 
 require './app/data_mapper_setup.rb'
 

@@ -1,3 +1,5 @@
+require_relative 'data_mapper_setup'
+
 ENV['RACK_ENV'] ||= 'development'
 
 require 'sinatra/base'
@@ -5,8 +7,8 @@ require './app/models/bookmark.rb'
 require './app/models/tag.rb'
 require 'database_cleaner'
 
-require_relative 'data_mapper_setup'
 
+# ENV['RACK_ENV'] ||= 'development'
 p ENV['RACK_ENV']
 
 class BookmarkManager < Sinatra::Base
@@ -25,9 +27,12 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/links' do
-    bookmark = Bookmark.create(url: params[:url], title: params[:title])
-    tag = Tag.new(name: params[:tags])
-    bookmark.tags << tag
+    bookmark = Bookmark.first_or_create(url: params[:url], title: params[:title])
+    # tag = Tag.new(name: params[:tags])
+    params[:tags].split.each do |tag|
+      bookmark.tags << Tag.first_or_create(name: tag)
+    end
+    # bookmark.tags << tag
     bookmark.save
     # bookmark = Bookmark.create(url: params[:url], title: params[:title], tags: [Tag.new(name: params[:tags])])
     redirect '/links'
@@ -38,7 +43,6 @@ class BookmarkManager < Sinatra::Base
    @links = tag ? tag.bookmarks : []
    erb :'/links'
   end
-
 
   run! if app_file == $0
 
