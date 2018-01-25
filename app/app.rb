@@ -7,7 +7,6 @@ require 'database_cleaner'
 
 require_relative 'data_mapper_setup'
 
-# ENV['RACK_ENV'] ||= 'development'
 p ENV['RACK_ENV']
 
 class BookmarkManager < Sinatra::Base
