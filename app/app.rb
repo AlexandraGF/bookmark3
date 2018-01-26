@@ -5,6 +5,7 @@ ENV['RACK_ENV'] ||= 'development'
 require 'sinatra/base'
 require './app/models/bookmark.rb'
 require './app/models/tag.rb'
+require './app/models/user.rb'
 require 'database_cleaner'
 
 
@@ -13,12 +14,15 @@ p ENV['RACK_ENV']
 
 class BookmarkManager < Sinatra::Base
 
+  enable :sessions
+
   get '/' do
-    "Hello"
+    erb :sign_up
   end
 
   get '/links' do
     @links = Bookmark.all
+    @user_email = session[:email]
     erb :links
   end
 
@@ -43,6 +47,14 @@ class BookmarkManager < Sinatra::Base
    @links = tag ? tag.bookmarks : []
    erb :'/links'
   end
+
+  post '/sign_up' do
+    user = User.create(email: params[:email], password: params[:password])
+    session[:email] = params[:email]
+    user.save
+    redirect '/links'
+  end
+
 
   run! if app_file == $0
 

@@ -10,11 +10,13 @@ class Bookmark
 
   include DataMapper::Resource
 
-  has n, :tags, through: Resource
-
   property :id, Serial
   property :title, String
   property :url, String
+
+  has n, :tags, through: Resource
+
+  has 1, :user, :required => true
 
 end
 
