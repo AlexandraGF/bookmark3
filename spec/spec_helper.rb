@@ -4,6 +4,7 @@ require 'capybara'
 require 'rspec'
 require 'capybara/rspec'
 require './app/app.rb'
+require 'bcrypt'
 
 
 

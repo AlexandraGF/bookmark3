@@ -10,11 +10,12 @@ require 'database_cleaner'
 
 
 # ENV['RACK_ENV'] ||= 'development'
-p ENV['RACK_ENV']
+# p ENV['RACK_ENV']
 
 class BookmarkManager < Sinatra::Base
 
   enable :sessions
+  set :session_secret, 'super secret'
 
   get '/' do
     erb :sign_up
@@ -51,10 +52,16 @@ class BookmarkManager < Sinatra::Base
   post '/sign_up' do
     user = User.create(email: params[:email], password: params[:password])
     session[:email] = params[:email]
+    session[:user_id] = user.id
     user.save
     redirect '/links'
   end
 
+  helpers do
+   def current_user
+     @current_user ||= User.get(session[:user_id])
+   end
+  end
 
   run! if app_file == $0
 
