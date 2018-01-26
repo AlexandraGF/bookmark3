@@ -1,11 +1,12 @@
-require_relative 'data_mapper_setup'
-
 ENV['RACK_ENV'] ||= 'development'
 
+require_relative 'data_mapper_setup'
+
+
 require 'sinatra/base'
-require './app/models/bookmark.rb'
-require './app/models/tag.rb'
-require './app/models/user.rb'
+# require './app/models/bookmark.rb'
+# require './app/models/tag.rb'
+# require './app/models/user.rb'
 require 'database_cleaner'
 
 
@@ -51,6 +52,8 @@ class BookmarkManager < Sinatra::Base
 
   post '/sign_up' do
     user = User.create(email: params[:email], password: params[:password])
+    p User.create(email: params[:email], password: params[:password])
+    p User.all
     session[:email] = params[:email]
     session[:user_id] = user.id
     user.save

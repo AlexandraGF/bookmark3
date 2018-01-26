@@ -10,10 +10,11 @@ class User
   property :email, String
   property :password_digest, Text
 
-  has n, :bookmarks, through: Resource
 
   def password=(password)
     self.password_digest = BCrypt::Password.create(password)
   end
 
+  # has 1, :bookmark
+  # has n, :bookmarks
 end

@@ -16,7 +16,8 @@ class Bookmark
 
   has n, :tags, through: Resource
 
-  has 1, :user, :required => true
+  # has 1, :user, :required => false
+  # belongs_to :user, required: false
 
 end
 
